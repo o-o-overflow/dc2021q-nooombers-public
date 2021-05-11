@@ -1,0 +1,87 @@
+# Info for the schoreboard
+service_name: "nooombers"
+description: "I really do not understand what this is about, but my cousin told me that once he managed to got a flag out of this. I was able to copy from my cousin's shell parts of his interactions with the server. You can find them in interaction1.txt and interaction2.txt. Unfortunately, they are incomplete."
+
+violates_flag_format: false # if this is not "true", the flag is verfied against the flag format
+
+
+flag: "OOO{D0Y0uUnd3rstandWh4tANumberIs?}" # this is the flag of the service
+
+allow_egress: False
+
+tags:
+  - crypto
+  #- reversing
+
+# Type can be normal or king_of_the_hill
+type: normal
+
+# This is the number of concurrent connections that a container should be able to handle.
+# This will be tested by the test script
+
+authors:
+  - anton00b
+
+
+# These are the files that will be "public" to the teams via the scoreboard.
+# The paths are relative to the repository
+# They are published manually. IF YOU CHANGE THEM DURING THE GAME YELL!
+public_files:
+  - interaction1.txt
+  - interaction2.txt
+
+# Test scripts are heavily encouraged.
+# All scripts should exit 0 if nothing went wrong.
+# Scripts are automatically determined to be exploit scripts if they start with the word "exploit".
+# Exploit scripts must output the flag using "FLAG: <FLAG>" and exit with 0 if the flag was captured correctly. 
+# The paths are absolute in the `interaction` docker container.
+interactions:
+    - /test1.sh
+    - /test2.sh
+    - /test3.sh
+    - /exploit.sh
+
+
+
+# This is how players will connect to your service
+# REMOVE THIS IF YOUR SERVICE HAS NO NETWORK COMPONENT
+# In the rare case that 'default' and 'guess' are not OK, you can specify your own values
+game_network_info:
+    host: default
+    port: guess
+
+
+
+healthcheck_tcp: Welcome to nooombers!
+
+# Resources ###################################################################
+
+
+# This is the number of concurrent connections that a container should be able to handle.
+# Also see xinetd's instances parameter
+concurrent_connections: 8
+
+# Resource limits that will go in k8s
+# request_xxx is used for scheduling (overcommitting)
+# These should mesh with the xinetd's rlimit_as and number of concurrent instances
+request_memory: 512m
+limit_memory: 512m
+
+
+
+# Not supported by the tester, but used by the infrastructure #################
+
+# Spawn N containers behind the load balancer
+# replicas * instances should allow everyone to play
+replicas: 8
+
+# Analogous to limit_memory / request_memory
+# limit_cpu / request_cpu
+
+# Transparent Proof-Of-Work if necessary
+#we may need it later, not for nows
+#pow: True
+#pow_level: 23
+
+# max_pids_per_instance: 200    # Protects against fork-bombs that take down the k8s node
+

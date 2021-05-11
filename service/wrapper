@@ -1,0 +1,5 @@
+#!/bin/sh
+
+timeout -k1 120 stdbuf -i0 -o0 -e0 python3.7 -u /server.py 2>/dev/null
+
+
